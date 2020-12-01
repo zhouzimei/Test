@@ -1,0 +1,30 @@
+Html Webpack Plugin:<pre>
+  TypeError: Cannot read property 'tap' of undefined
+  
+  - ExternalModuleFactoryPlugin.js:17 ExternalModuleFactoryPlugin.apply
+    [test]/[webpack]/lib/ExternalModuleFactoryPlugin.js:17:37
+  
+  - ExternalsPlugin.js:16 
+    [test]/[webpack]/lib/ExternalsPlugin.js:16:63
+  
+  
+  - Hook.js:14 Hook.CALL_DELEGATE [as _call]
+    [zzm]/[tapable]/lib/Hook.js:14:14
+  
+  - Compiler.js:958 
+    [zzm]/[webpack]/lib/Compiler.js:958:23
+  
+  
+  - Hook.js:18 Hook.CALL_ASYNC_DELEGATE [as _callAsync]
+    [zzm]/[tapable]/lib/Hook.js:18:14
+  
+  - Compiler.js:955 Compiler.compile
+    [zzm]/[webpack]/lib/Compiler.js:955:28
+  
+  - Compiler.js:480 Compiler.runAsChild
+    [zzm]/[webpack]/lib/Compiler.js:480:8
+  
+  - child-compiler.js:110 
+    [test]/[html-webpack-plugin]/lib/child-compiler.js:110:21
+  
+</pre><script src="auto/main.js"></script>
