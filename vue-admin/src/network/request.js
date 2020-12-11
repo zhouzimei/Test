@@ -6,6 +6,7 @@ export const request = (options) =>{
     })
     //请求拦截
     inst.interceptors.request.use(config => {
+        config.headers.Authorization = sessionStorage.getItem("token")
         return config
     })
     //响应拦截
