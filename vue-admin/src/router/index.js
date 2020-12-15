@@ -45,7 +45,7 @@ const routes = [
       name:'Roles'
     },
     {path:'/goods',component:Goods,name:'Goods'},
-    {path:'/rights',comments:Rights,name:'Rights'},
+    {path:'/rights',component:Rights,name:'Rights'},
     {path:'/params',component:Params,name:'Params'},
     {path:'/categories',component:Categories,name:'Categories'},
     {path:'/orders',component:Orders,name:'Orders'},

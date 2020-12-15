@@ -352,5 +352,10 @@ template {
     height: 100%;
 }
 
-
-
+.el-breadcrumb{
+    font-size: 13px !important;
+    margin-bottom: 15px;
+}
+.el-card{
+    box-shadow: 0 0 1px rgba(0,0,0,.2) !important;
+}
