@@ -31,3 +31,18 @@ export const reqRights = (type) => request({url:`rights/${type}`,method:'get'})
 
 //删除角色权限
 export const reqDelRolesRights = (roleId,rightId) => request({url:`roles/${roleId}/rights/${rightId}`,method:'delete'})
+
+//更改角色权限
+export const reqUpdateRoleRights = (roleId,rids) => request({url:`roles/${roleId}/rights`,method:'post',data:{rids}})
+
+//删除角色
+export const reqDeleRoles = (id) => request({url:`roles/${id}`,method:'delete'})
+
+//添加角色
+export const reqAddRole = (roleObj) => request({url:`roles`,method:'post',data:roleObj})
+
+//编辑角色
+export const reqEditRole = (id,roleObj) => request({url:`roles/${id}`,method:'put',data:roleObj})
+
+//获取商品分类
+export const reqCategories = (params) => request({url:'categories',method:'get',params})

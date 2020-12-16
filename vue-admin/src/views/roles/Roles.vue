@@ -10,7 +10,7 @@
         <el-card class="box-card">
             <el-row>
                 <el-col>
-                    <el-button type="primary">添加角色</el-button>
+                    <el-button type="primary" @click="addRole">添加角色</el-button>
                 </el-col>
             </el-row>
 
@@ -63,24 +63,30 @@
                 <el-table-column
                 label="操作"
                 >
-                    <template v-slot>
-                        <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-                        <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
-                        <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+                    <template v-slot="data">
+                        <el-button type="primary" icon="el-icon-edit" size="mini" @click="eidiClick(data.row)">编辑</el-button>
+                        <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+                        <el-button type="warning" icon="el-icon-setting" size="mini" @click="updateRightsClick(data.row)">分配权限</el-button>
                     </template>
                 </el-table-column>
 
             </el-table>
         </el-card>
+        <update-rights-dialog ref="rightsDialog" :currentRole="currentRole"></update-rights-dialog>
+        <add-or-edit-role-dialog ref="addOrEditDialog" :currentRole="currentRole"></add-or-edit-role-dialog>
     </div>
 </template>
 <script>
 import {reqRolesList,reqDelRolesRights} from "network/api"
+import UpdateRightsDialog from './childComp/UpdateRightsDialog.vue'
+import AddOrEditRoleDialog from '../users/childCom/AddOrEditRoleDialog.vue'
 export default {
+  components: { UpdateRightsDialog, AddOrEditRoleDialog },
     name:'Roles',
     data(){
         return{
-            roleList:[]
+            roleList:[],
+            currentRole:{}
         }
     },
     created(){
@@ -106,7 +112,43 @@ export default {
             }).catch(()=>{
                 this.$message.info("您取消了该操作")
             })
+        },
+
+        //点击分配权限
+        updateRightsClick(roleInfo){
+            this.currentRole = roleInfo
+            //获取权限列表数据
+            this.getDefaultKeys(roleInfo,this.$refs.rightsDialog.defaultKeys)
+            console.log(roleInfo)
+            this.$refs.rightsDialog.dialogVisible = true
+            //发送请求
+            this.$refs.rightsDialog.getRightList()
+        },
+
+        //递归调用 获取默认选中keys数组
+        getDefaultKeys(node,arr){
+            if (!node.children){
+                return arr.push(node.id)
+            }
+            node.children.forEach(item =>{
+                this.getDefaultKeys(item,arr)
+            })
+        },
+
+        //添加角色
+        addRole(){
+            //清空内容
+            this.currentRole = {}
+            this.$refs.addOrEditDialog.dialogVisible = true
+        },
+
+        //编辑角色
+        eidiClick(roleInfo){
+            this.currentRole = roleInfo
+            this.$refs.addOrEditDialog.dialogVisible = true
         }
+
+
     },
 }
 </script>
