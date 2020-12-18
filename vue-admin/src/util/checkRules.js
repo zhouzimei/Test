@@ -11,3 +11,16 @@ export const checkMobile = (rule,value,callback) => {
     if (!res.test(value)) return callback(new Error("手机格式不正确"))
     callback()
 }
+
+//格式化时间
+export const dateFormat = (time) => {
+    let date = new Date(time)
+    let y = date.getFullYear()
+    //不足两位补零
+    let m = (date.getMonth() + "").padStart(2,"0")
+    let d = (date.getDate() + "").padStart(2,"0")
+    let hh = (date.getHours() + "").padStart(2,"0")
+    let mm = (date.getMinutes() + "").padStart(2,"0")
+    let ss = (date.getSeconds() + "").padStart(2,"0")
+    return `${y}-${m}-${d}-${hh}:${mm}:${ss}`
+}

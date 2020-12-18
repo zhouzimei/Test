@@ -46,3 +46,26 @@ export const reqEditRole = (id,roleObj) => request({url:`roles/${id}`,method:'pu
 
 //获取商品分类
 export const reqCategories = (params) => request({url:'categories',method:'get',params})
+
+//添加商品分类
+export const reqAddCategories = (data) => request({url:'categories',method:'post',data})
+
+//获取参数列表
+export const reqAttrList = (id,sel) => request({url:`categories/${id}/attributes`,method:'get',params:{sel}})
+
+//添加动态参数或静态属性
+export const reqAddCateAttr = (id,data) => request({url:`categories/${id}/attributes`,method:'post',data})
+
+//编辑动态参数或静态属性
+
+export const reqEditCateAttr = (id,attrId,data) => request({
+    url:`categories/${id}/attributes/${attrId}`,
+    method:'put',
+    data
+   })
+
+//删除参数
+export const reqDelCateAttr = (id,attrid) => request ({url:`categories/${id}/attributes/${attrid}`,method:'delete'})
+
+//获取商品列表
+export const reqGoodsList = (params) => request({url:'goods',method:'get',params})

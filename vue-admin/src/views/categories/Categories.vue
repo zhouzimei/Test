@@ -10,7 +10,7 @@
         <el-card class="box-card">
             <el-row>
                 <el-col>
-                    <el-button type="primary">添加分类</el-button>
+                    <el-button type="primary" @click="addCateClick">添加分类</el-button>
                 </el-col>
             </el-row>
 
@@ -33,7 +33,7 @@
                 <el-tag size="mini" v-else type="warning">三级</el-tag>
 
             </template>
-            <template v-slot:option="data">
+            <template v-slot:option>
                 <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
                 <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
             </template>
@@ -50,14 +50,15 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
             </el-pagination>
-        
-            
         </el-card>
+        <add-categories ref="addCate"></add-categories>
     </div>
 </template>
 <script>
 import {reqCategories} from "network/api"
+import AddCategories from './AddCategories.vue'
 export default {
+  components: { AddCategories },
     name:'Categories',
     data(){
         return{
@@ -117,6 +118,12 @@ export default {
         handleCurrentChange(newpage){
             this.cate_params.pagenum = newpage
             this.getCategoriesList()
+        },
+
+        //点击添加分类
+        addCateClick(){
+            this.$refs.addCate.getCateList()
+            this.$refs.addCate.dialogVisible = true
         }
 
     }

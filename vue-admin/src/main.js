@@ -7,7 +7,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false
 
-
+import {dateFormat} from "./util/checkRules"
+Vue.filter("dateFormat",dateFormat)
 
 //使用第三方表格
 import ZkTable from 'vue-table-with-tree-grid'

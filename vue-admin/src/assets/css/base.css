@@ -359,3 +359,8 @@ template {
 .el-card{
     box-shadow: 0 0 1px rgba(0,0,0,.2) !important;
 }
+.el-table{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 12px !important;
+}
