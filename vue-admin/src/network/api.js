@@ -69,3 +69,12 @@ export const reqDelCateAttr = (id,attrid) => request ({url:`categories/${id}/att
 
 //获取商品列表
 export const reqGoodsList = (params) => request({url:'goods',method:'get',params})
+
+//添加商品
+export const reqAddGoods = (data) => request({url:'goods',method:'post',data})
+
+//删除商品
+export const reqDelGoods = (id) => request({url:`goods/${id}`,method:'delete'})
+
+//数据统计
+export const reqReports = () => request({url:'reports/type/1',method:'get'})

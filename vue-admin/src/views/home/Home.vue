@@ -29,9 +29,10 @@
                             <span>{{item.authName}}</span>
                         </template>
                         <el-menu-item 
-                            :index="citem.path + ''"
+                            :index="'/' + citem.path "
                             v-for ="citem in item.children"
                             :key="citem.id"
+                            :route="'/' + citem.path "
                             @click="menuItemClick(citem.path)"
 
                         >
@@ -96,8 +97,8 @@ export default {
 
         //保持列表刷新后，被选中那项的状态
         menuItemClick(path){
-            sessionStorage.setItem("path",path)
-            this.activeItem = path
+            sessionStorage.setItem("path",'/'+path)
+            this.activeItem ='/' + path
         }
 
     },

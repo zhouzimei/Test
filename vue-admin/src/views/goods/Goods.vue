@@ -39,11 +39,12 @@
 
                 </el-table-column>
                 <el-table-column  label="操作" width="140">
-                    <!--修改-->
-                   <el-button type="primary" icon="el-icon-edit" size="mini" @click="editUserClick(data.row)"></el-button>
-                   <!--删除-->
-                   <el-button type="danger" size="mini" icon="el-icon-delete" @click="delUser(data.row)" ></el-button>
-
+                    <template v-slot="data">
+                        <!--修改-->
+                        <el-button type="primary" icon="el-icon-edit" size="mini" @click="editUserClick(data.row)"></el-button>
+                        <!--删除-->
+                        <el-button type="danger" size="mini" icon="el-icon-delete" @click="delUser(data.row)" ></el-button>
+                    </template>
                 </el-table-column>
             </el-table>
             <!--分页-->
@@ -61,7 +62,7 @@
     </div>
 </template>
 <script>
-import {reqGoodsList} from "network/api"
+import {reqGoodsList,reqDelGoods} from "network/api"
 export default {
     name:'Goods',
     data() {
@@ -120,6 +121,23 @@ export default {
         addGoodsClick(){
             this.$router.push("/goods/add")
 
+        },
+
+        //删除商品
+        delUser(goodsInfo){
+           
+            this.$confirm("此操作将永久删除该用户, 是否继续?",'提示',{
+                type: 'warning'
+                }).then(async () => {
+                const {meta} = await reqDelGoods(goodsInfo.goods_id)
+                if (meta.status !== 200) return this.$message.error(meta.msg)
+                this.$message.success(meta.msg)
+                this.getGoodsList()
+               
+                }).catch(() => {
+                this.$message.info("取消删除")
+                
+            })
         }
     }
 
