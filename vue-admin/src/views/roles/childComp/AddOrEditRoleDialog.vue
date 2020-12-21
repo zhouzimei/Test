@@ -54,6 +54,7 @@ export default {
                 if(!valid) return
                 //发编辑请求
                 if(this.isEdit){
+                    console.log(this.currentRole.id)
                     const {meta} = await reqEditRole(this.currentRole.id,this.roleForm)
                     if(meta.status !== 200) return this.$message.error(meta.msg)
                     this.$message.success('修改成功')

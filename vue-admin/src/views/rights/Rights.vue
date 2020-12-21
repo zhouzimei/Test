@@ -12,6 +12,7 @@
             <el-table
                 :data="rightsList"
                 stripe
+                border
                 style="width: 100%">
                 <el-table-column type="index"></el-table-column>
                 <el-table-column

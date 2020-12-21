@@ -50,6 +50,12 @@ export const reqCategories = (params) => request({url:'categories',method:'get',
 //添加商品分类
 export const reqAddCategories = (data) => request({url:'categories',method:'post',data})
 
+//编辑分类
+export const reqEditCategories = (id,catname) => request({url:`categories/${id}`,method:'put',data:catname})
+
+//删除分类
+export const reqDelCategories = (id) => request({url:`categories/${id}`,method:'delete'})
+
 //获取参数列表
 export const reqAttrList = (id,sel) => request({url:`categories/${id}/attributes`,method:'get',params:{sel}})
 
@@ -78,3 +84,6 @@ export const reqDelGoods = (id) => request({url:`goods/${id}`,method:'delete'})
 
 //数据统计
 export const reqReports = () => request({url:'reports/type/1',method:'get'})
+
+//订单数据列表
+export const reqOrdersList = (params) => request({url:'orders',method:'get',params})

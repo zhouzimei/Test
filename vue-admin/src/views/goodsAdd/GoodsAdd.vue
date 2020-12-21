@@ -90,6 +90,7 @@
             :visible.sync="dialogVisible"
             width="30%"
             >
+            <img :src="previewUrl" style="width:100%"/>
             
         
         </el-dialog>

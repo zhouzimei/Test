@@ -65,6 +65,7 @@ export default {
          async getCateList(){
              const {meta,data} = await reqCategories({type:2})
              if (meta.status !== 200) return this.$message.error(meta.msg)
+             console.log(data)
              this.cateList = data
              
          },
@@ -99,8 +100,7 @@ export default {
          
          }
 
-
-
-    }
+    },
+    
 }
 </script>

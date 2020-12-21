@@ -22,5 +22,5 @@ export const dateFormat = (time) => {
     let hh = (date.getHours() + "").padStart(2,"0")
     let mm = (date.getMinutes() + "").padStart(2,"0")
     let ss = (date.getSeconds() + "").padStart(2,"0")
-    return `${y}-${m}-${d}-${hh}:${mm}:${ss}`
+    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 }

@@ -22,6 +22,7 @@
                 show-index
                 :selection-type="false"
                 class="zk-table"
+                border
             >
             <template v-slot:isOk="data">
                 <i class="el-icon-success" style="color:greenyellow" v-if="!data.row.cat_deleted"></i>
@@ -33,9 +34,12 @@
                 <el-tag size="mini" v-else type="warning">三级</el-tag>
 
             </template>
-            <template v-slot:option>
-                <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+            <template v-slot:option="data">
+                <el-button type="primary" icon="el-icon-edit" 
+                size="mini" @click="editCateClick(data.row)"
+                ref="editDialog"
+                >编辑</el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini" @click="delCateClick(data.row)">删除</el-button>
             </template>
 
             </ZkTable>
@@ -51,14 +55,26 @@
                 :total="total">
             </el-pagination>
         </el-card>
-        <add-categories ref="addCate"></add-categories>
+        <!--添加的子组件-->
+        <add-categories  ref="addCate" ></add-categories>
+        <!--编辑的子组件-->
+        <edit-categories ref="ediCate" 
+        :currentCate="currentCate"
+        :getCategoriesList="getCategoriesList"
+        ></edit-categories>
+        
+        
+        
     </div>
 </template>
 <script>
-import {reqCategories} from "network/api"
-import AddCategories from './AddCategories.vue'
+import {reqCategories,reqDelCategories,} from "network/api"
+
+import AddCategories from './childComp/AddCategories.vue'
+import EditCategories from './childComp/EditCategories.vue'
+
 export default {
-  components: { AddCategories },
+  components: { AddCategories,EditCategories},
     name:'Categories',
     data(){
         return{
@@ -69,6 +85,8 @@ export default {
             },
             cate_list:[],
             total:0,
+            dialogVisible:false,
+            currentCate:{},
             columns:[
                 //表格标题
                 {
@@ -124,6 +142,28 @@ export default {
         addCateClick(){
             this.$refs.addCate.getCateList()
             this.$refs.addCate.dialogVisible = true
+        },
+
+        //删除分类
+        delCateClick(cateInfor){
+            this.$confirm('此操作将永久删除该分类, 是否继续?','提示',{
+                type:'warning'
+            }).then(async () => {
+                const {meta} = await reqDelCategories(cateInfor.cat_id) 
+                if (meta.status !== 200) return this.$message.error(meta.msg)
+                this.$message.success("删除分类成功")
+                this.getCategoriesList()
+            }).catch(() => {
+                this.$message.info("您取消了该操作")
+            })
+            
+        },
+
+        //编辑分类
+        editCateClick(currentCatInfo){
+            this.currentCate = currentCatInfo
+            this.$refs.ediCate.cateForm.cat_name = currentCatInfo.cat_name
+            this.$refs.ediCate.dialogVisible = true
         }
 
     }
@@ -132,5 +172,6 @@ export default {
 <style scoped>
     .zk-table{
         margin: 15px 0 ;
+        
     }
 </style>

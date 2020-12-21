@@ -25,7 +25,9 @@
         <el-table
             :data="userList"
             stripe
-            style="width: 100%">
+            style="width: 100%"
+            border
+            >
             <el-table-column type="index"></el-table-column>
             <el-table-column prop="username" label="姓名"></el-table-column>
             <el-table-column prop="email" label="邮箱"></el-table-column>

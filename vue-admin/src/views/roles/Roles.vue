@@ -16,6 +16,7 @@
 
             <el-table
                 :data="roleList"
+                border
                 style="width: 100%">
                 <el-table-column type="expand" v-slot="data">
                     <el-row :class="['al_center','bottom_border', index1 === 0 ? 'top_border' : '']"
@@ -65,7 +66,7 @@
                 >
                     <template v-slot="data">
                         <el-button type="primary" icon="el-icon-edit" size="mini" @click="eidiClick(data.row)">编辑</el-button>
-                        <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+                        <el-button type="danger" icon="el-icon-delete" size="mini" @click="delRole(data.row)">删除</el-button>
                         <el-button type="warning" icon="el-icon-setting" size="mini" @click="updateRightsClick(data.row)">分配权限</el-button>
                     </template>
                 </el-table-column>
@@ -73,20 +74,23 @@
             </el-table>
         </el-card>
         <update-rights-dialog ref="rightsDialog" :currentRole="currentRole"></update-rights-dialog>
+        
         <add-or-edit-role-dialog ref="addOrEditDialog" :currentRole="currentRole"></add-or-edit-role-dialog>
     </div>
 </template>
 <script>
-import {reqRolesList,reqDelRolesRights} from "network/api"
+import {reqRolesList,reqDelRolesRights,reqDeleRoles} from "network/api"
 import UpdateRightsDialog from './childComp/UpdateRightsDialog.vue'
-import AddOrEditRoleDialog from '../users/childCom/AddOrEditRoleDialog.vue'
+import AddOrEditRoleDialog from './childComp/AddOrEditRoleDialog.vue'
+
 export default {
   components: { UpdateRightsDialog, AddOrEditRoleDialog },
     name:'Roles',
     data(){
         return{
             roleList:[],
-            currentRole:{}
+            currentRole:{},
+            roleId:''
         }
     },
     created(){
@@ -144,10 +148,31 @@ export default {
 
         //编辑角色
         eidiClick(roleInfo){
+         
             this.currentRole = roleInfo
             this.$refs.addOrEditDialog.dialogVisible = true
-        }
+        },
+        //删除角色
+        delRole(roleInfor){
+            this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(async() => {
+          const {meta} = await reqDeleRoles(roleInfor.id)
+          if(meta.status !== 200) return this.$message.error(meta.msg)
+          this.$message.success(meta.msg)
+          //刷新列表
+          this.getRoleList()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消删除'
+          });          
+        });
+        },
 
+        
 
     },
 }
