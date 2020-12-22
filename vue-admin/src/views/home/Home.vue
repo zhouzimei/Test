@@ -56,6 +56,7 @@
 </template>
 <script>
 import {reqMenus} from 'network/api'
+import {authDynamicRouter} from "@/router/index"
 export default {
     name:'Home',
     data(){
@@ -86,9 +87,26 @@ export default {
         //请求侧边数据
         async getMenus(){
             const {data,meta} = await reqMenus()
-            console.log(data)
+            
             if (meta.status !== 200) return this.$message.error(meta.msg)
+            data.forEach(item => {
+                item.children.forEach(citem => {
+                    if (citem.authName === "商品列表"){
+                        citem.authOps = {
+                            add: true
+                        }
+                    }else{
+                        citem.authOps = {
+                            add:false
+                        }
+                    }
+                })
+            })
             this.menuList = data
+
+            //将侧边栏数据存储到本地
+            sessionStorage.setItem("authMenus",JSON.stringify(data))
+            authDynamicRouter()
         },
         //侧边栏的隐藏与收起
         toggleMenuClick(){

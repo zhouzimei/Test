@@ -81,7 +81,7 @@ export default {
             cate_params:{
                 type:3,
                 pagenum:1,
-                pagesize:3,
+                pagesize:10,
             },
             cate_list:[],
             total:0,
