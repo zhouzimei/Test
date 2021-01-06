@@ -1,23 +1,51 @@
-// pages/personal/personal.js
+// pages/video/video.js
+import {reqVideoNavs,reqVideoList} from "../../network/api"
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    activeIndex:0,
+    navList:[],
+    navId:'',
+    videoList:[],
+    currentVid:'',
 
   },
-  //点击头像区域部分
-  loginTap(){
-    wx.navigateTo({
-      url: '/pages/login/login'
+  //点击图片
+  vItemTap(e){
+   
+    this.setData({currentVid:e.currentTarget.dataset.vid})
+  },
+  //获取视频列表
+  async getVideoList(){
+    const res = await reqVideoList(this.data.navId)
+    this.setData({videoList:res.datas.map(item => item.data)})
+  },
+
+  //点击导航
+  navItemTap(e){
+    this.setData({
+      activeIndex:e.currentTarget.dataset.index,
+      navId:e.currentTarget.dataset.id,
     })
+    this.getVideoList()
+  },
+  //获取导航列表
+  async getNavList(){
+    const res = await reqVideoNavs()
+    this.setData({
+      navList:res.data.slice(0,10),
+      navId:res.data[0].id
+    })
+    this.getVideoList()
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.getNavList()
   },
 
   /**

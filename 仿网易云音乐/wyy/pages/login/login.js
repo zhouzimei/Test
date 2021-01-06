@@ -35,7 +35,7 @@ Page({
       })
       return
     }
-    const res = await reqLogin(phone,password)
+    const res = await reqLogin({phone,password,isLogin:true})
     if(res.code !== 200){
       return wx.showToast({
         title:res.message,

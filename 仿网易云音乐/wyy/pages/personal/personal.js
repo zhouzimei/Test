@@ -1,55 +1,43 @@
-// pages/index/index.js
-import {reqBannerList,reqIndexRecommend,reqTopSong} from "../../network/api"
+
+// pages/personal/personal.js
+import {reqUserRecord } from "../../network/api"
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    banners:[],
-    recomList:[],
-    topSongList:[],
-  },
+    userInfo:{},
+    userId:'',
+    type:0,
+    recordList:[]
 
-  //请求轮播图数据
-  async getBannerList(){
-      const {banners} = await reqBannerList(2)
-      this.setData({banners})
-      
   },
-
-  //推荐歌单
-  async getRecommendList(){
-    const {result} = await reqIndexRecommend(10)
+  //点击头像区域部分
+  loginTap(){
+    wx.navigateTo({
+      url: '/pages/login/login'
+    })
+  },
+  //获取播放记录
+  async getRecord(){
+    let userInfo = wx.getStorageSync('userInfo')
+    let uid = userInfo.userId 
+    const res = await reqUserRecord(uid)
+    console.log(res.weekData.map(item => item.song))
+   
     this.setData({
-      recomList:result
+      recordList:res.weekData.map(item => item.song)
     })
-  },
-
-  //排行榜
-  async getTopSongList(idx){
-    const {playlist} = await reqTopSong(idx)
-    let topSongList = []
-    topSongList.push({
-      name:playlist.name,
-      tracks:playlist.tracks
-    })
-    this.setData({
-      topSongList : [...this.data.topSongList,...topSongList]
-    })
-
+ 
+   
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getBannerList()
-    this.getRecommendList()
-    for (var i = 0; i < 3; i++){
-      this.getTopSongList(i)
-    }
-
-
+    this.getRecord()
   },
 
   /**
@@ -63,6 +51,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    //获取用户信息
+    this.setData({
+      userInfo:wx.getStorageSync('userInfo'),
+    })
 
   },
 
